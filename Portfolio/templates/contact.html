@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Contact | {{ profile.full_name }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h1 class="mb-5 text-center">Get In Touch</h1>
+      
+      <!-- Contact Info -->
+      <div class="row mb-5">
+        <div class="col-md-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+              <div class="contact-icon mb-3">
+                <i class="bi bi-envelope-fill text-primary fs-1"></i>
+              </div>
+              <h5 class="card-title">Email</h5>
+              <p class="card-text">
+                <a href="mailto:{{ profile.email }}" class="text-decoration-none">{{ profile.email }}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% if profile.phone %}
+        <div class="col-md-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+              <div class="contact-icon mb-3">
+                <i class="bi bi-telephone-fill text-success fs-1"></i>
+              </div>
+              <h5 class="card-title">Phone</h5>
+              <p class="card-text">{{ profile.phone }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="col-md-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+              <div class="contact-icon mb-3">
+                <i class="bi bi-geo-alt-fill text-danger fs-1"></i>
+              </div>
+              <h5 class="card-title">Location</h5>
+              <p class="card-text">{{ profile.location }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center">
+              <div class="contact-icon mb-3">
+                <i class="bi bi-linkedin text-primary fs-1"></i>
+              </div>
+              <h5 class="card-title">LinkedIn</h5>
+              {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="btn btn-outline-primary w-100">
+                  View Profile
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form (placeholder - functional form next step) -->
+      <div class="card border-0 shadow-lg">
+        <div class="card-body p-5">
+          <h3 class="mb-4">Send Message</h3>
+          <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" required>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Subject</label>
+              <input type="text" class="form-control" name="subject" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Message</label>
+              <textarea class="form-control" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+
+{% endblock %}

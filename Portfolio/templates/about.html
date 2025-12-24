@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}About | {{ profile.full_name }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h1 class="mb-5 text-center">About Me</h1>
+      <div class="row mb-5">
+        <div class="col-md-4 text-center">
+          {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" class="img-fluid rounded-circle shadow-lg mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <h2>{{ profile.full_name }}</h2>
+          <h4 class="text-primary">{{ profile.headline }}</h4>
+          <p class="lead">{{ profile.about|linebreaks }}</p>
+        </div>
+      </div>
+      
+      <h3 class="mb-4">Education</h3>
+      {% for edu in educations %}
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ edu.degree }} in {{ edu.field_of_study|default:edu.institution }}</h5>
+          <h6 class="text-muted">{{ edu.institution }}</h6>
+          <p>{{ edu.description|linebreaks }}</p>
+          <small class="text-muted">{{ edu.start_year }}–{{ edu.end_year }} | {{ edu.result_or_cgpa }}</small>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

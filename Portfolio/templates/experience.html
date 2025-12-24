@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Experience | {{ profile.full_name }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <h1 class="mb-5 text-center">Experience & Education</h1>
+      
+      <!-- Experience Timeline -->
+      <h3 class="mb-4">Professional Experience</h3>
+      {% for exp in experiences %}
+      <div class="timeline-item mb-5 position-relative">
+        <div class="row align-items-center">
+          <div class="col-md-3 text-md-end mb-3 mb-md-0">
+            <div class="timeline-date bg-primary text-white px-3 py-2 rounded-pill d-inline-block">
+              {% if exp.is_current %}
+                {{ exp.start_date|date:"M Y" }} - Present
+              {% else %}
+                {{ exp.start_date|date:"M Y" }} - {{ exp.end_date|date:"M Y" }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body">
+                <h4 class="card-title mb-2">{{ exp.role }}</h4>
+                <h5 class="text-primary mb-3">{{ exp.organization }}{% if exp.location %}, {{ exp.location }}{% endif %}</h5>
+                <p>{{ exp.description|linebreaks }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted text-center">No experience entries yet.</p>
+      {% endfor %}
+
+      <!-- Education -->
+      <h3 class="mb-4 mt-5">Education</h3>
+      {% for edu in educations %}
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h5 class="card-title">{{ edu.degree }}</h5>
+              <h6 class="text-muted">{{ edu.institution }}</h6>
+              {% if edu.field_of_study %}<p class="mb-2">{{ edu.field_of_study }}</p>{% endif %}
+              <p>{{ edu.description|truncatewords:30 }}</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <div class="badge bg-primary fs-6 px-4 py-2 mb-2">{{ edu.result_or_cgpa }}</div>
+              <div class="text-muted">{{ edu.start_year }}–{{ edu.end_year }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted text-center">No education entries yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
